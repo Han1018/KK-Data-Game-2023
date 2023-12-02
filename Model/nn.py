@@ -133,22 +133,25 @@ class NNmodel(nn.Module):
     def __init__(self, VOCAB_SIZE, embedding_dim, output_dim):
         super(NNmodel, self).__init__()
         self.embedding = nn.Embedding(VOCAB_SIZE, embedding_dim)
+        self.unemb_fc = nn.Linear(embedding_dim, VOCAB_SIZE)
         # self.conv1d = nn.Conv1d(
         #     in_channels=embedding_dim, out_channels=32, kernel_size=3
         # )
 
-        self.fc = nn.Linear(20, 5)
+        self.fc = nn.Linear(20, 128)
         self.relu = nn.ReLU()
-        self.fc_out = nn.Linear(32, output_dim)
+        self.dropout = nn.Dropout(0.2)
+        self.fc_out = nn.Linear(128, 5)
         self.softmax = nn.Softmax(dim=1)
-        self.unemb_fc = nn.Linear(embedding_dim, VOCAB_SIZE)
 
     def forward(self, x):
         embedded = self.embedding(x)
         x = embedded.permute(0, 2, 1)
         x = self.fc(x)
+        x = self.fc_out(x)
         x = x.permute(0, 2, 1)
         out = self.unemb_fc(x)
+        out = self.softmax(out)
         return out
 
 
@@ -278,15 +281,15 @@ def main():
     loss_list = []
 
     # load model
-    model.load_state_dict(torch.load("model.pth"))
+    # model.load_state_dict(torch.load("model.pth"))
 
     # Inference
-    predicted_indices = inference(model, test_loader, device)
-    np2csv(
-        predicted_indices,
-        ["session_id", "top1", "top2", "top3", "top4", "top5"],
-        "submission.csv",
-    )
+    # predicted_indices = inference(model, test_loader, device)
+    # np2csv(
+    #     predicted_indices,
+    #     ["session_id", "top1", "top2", "top3", "top4", "top5"],
+    #     "submission.csv",
+    # )
 
     # Train the model
     for epoch in range(num_epochs):
