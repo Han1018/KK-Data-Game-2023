@@ -133,25 +133,27 @@ class NNmodel(nn.Module):
     def __init__(self, VOCAB_SIZE, embedding_dim, output_dim):
         super(NNmodel, self).__init__()
         self.embedding = nn.Embedding(VOCAB_SIZE, embedding_dim)
-        self.unemb_fc = nn.Linear(embedding_dim, VOCAB_SIZE)
-        # self.conv1d = nn.Conv1d(
-        #     in_channels=embedding_dim, out_channels=32, kernel_size=3
-        # )
+        self.unemb_fc = nn.Linear(embedding_dim - 1, VOCAB_SIZE)
+        self.conv1d = nn.Conv1d(
+            in_channels=20, out_channels=64, kernel_size=2, stride=1
+        )
 
-        self.fc = nn.Linear(20, 128)
+        self.fc = nn.Linear(32, 128)
         self.relu = nn.ReLU()
-        self.dropout = nn.Dropout(0.2)
-        self.fc_out = nn.Linear(128, 5)
+        self.dropout = nn.Dropout(0.5)
+        self.fc_out = nn.Linear(64, 5)
         self.softmax = nn.Softmax(dim=1)
 
     def forward(self, x):
         embedded = self.embedding(x)
-        x = embedded.permute(0, 2, 1)
-        x = self.fc(x)
+        # x = embedded.permute(0, 2, 1)
+        x = self.conv1d(embedded)
+        x = self.relu(x)
+        x = self.dropout(x)
         x = self.fc_out(x)
         x = x.permute(0, 2, 1)
-        out = self.unemb_fc(x)
-        out = self.softmax(out)
+        x = self.unemb_fc(x)
+        out = self.softmax(x)
         return out
 
 
