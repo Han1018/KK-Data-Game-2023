@@ -34,19 +34,22 @@ Readme會分為兩部份: EDA & Method
     <img src="./images/login_type.png" alt="Image 1" width="45%">
     <img src="./images/genre.png" alt="Image 2" width="45%">
 </div>
-五、畫出這些參數的heatmap觀察彼此的關聯性，關聯性太高的可以去掉（資料太多,ram不夠塞)。  <br>
-六、使用RandomForestClassifier觀察Kaggle提供的資料與第21首歌的關聯性，發現到影響力最大的變數還是song_id,尤其是後5首(第16~20)。再來是artist_id。
+五、畫出這些參數的heatmap觀察彼此的關聯性，關聯性太高的可以去掉（資料太多,ram不夠塞)。在heatmap上語言和曲風有比較高的相似度，因為語言的missrate比較少且沒有多對一所以二者中捨去曲風當作特徵  <br>
+六、使用RandomForestClassifier觀察Kaggle提供的特徵資料與第21首歌的關聯性，發現到影響力最大的變數還是song_id,尤其是後5首(第16~20)。再來是artist_id。
 <div style="display: flex; justify-content: space-between;">
     <img src="./images/heatmap.png" alt="Image 1" width="45%">
     <img src="./images/feature_importances.png" width="45%">
 </div>
 
-以這些特徵來說比較理想能使用的是語言和曲風，他們能夠
 ---
-因此很適用ngram的方式來實做，由後n首歌來預測下一首歌。
+結論：
+整體來說KKBOX提供的資料特徵很多，但實用的並不多。譬如說play_duration和artist理論上這兩個特徵應該對用戶有很大的影響力，但在RandomForestClassifier得到的結果卻是不如sond_id1~20，且有段的落差。<br>
+就我們的猜想，play_duration和artist是有一定的影響力，關鍵在於資料中的單位是session_id，而不是用戶。每個用戶累積到的session資訊無法被保存下來，讓模型能夠紀錄和猜測的能力大幅下降。所以我們目標從原本的猜測用戶喜歡的歌變成盡量找到song_id出現的規律。<br>
 
-## Method-Ngram
-使用Ngram的方式是我們最終達到最佳解的方式。KNN, Randomforest, Word2Vector, Item2Vector, Transformer方式收斂狀況都不盡理想，最好的結果是word2vec但僅為0.11。而Ngram效果卻出乎意料的好，原因可能是使用Ngram幫我免去了從巨大資料集(Meta_song)中找到700k分之一的可能性。且發現特定資料上配對的頻率比想像的高，因此我們主要的得分方向便在於此。用提供資料中的1-20首的後幾首歌預測多首歌。
+這方法也就是我們最後方向，N-Gram Model。找出聽了前n首歌後下一首出現機率最高的歌。
+
+## Method-N-Gram Model 
+使用Ngram的方式是我們最終達到最佳解的方式。KNN, Randomforest, Word2Vector, Item2Vector, Transformer方式收斂狀況都不盡理想，最好的結果是word2vec(預測第21首，22~25填我們已知的最佳結果)但僅為0.11。而Ngram效果卻出乎意料的好，原因可能是使用Ngram幫我免去了從巨大資料集(Meta_song)中找到700k分之一的可能性。且發現特定資料上配對的頻率比想像的高，因此我們主要的得分方向便在於此。用提供資料中的1-20首的後幾首歌預測多首歌。
 
 在實際上操作上，我們是先建立一個Frequency Table，找出所有n生成m的組合，像是5生成5, 5生成4, 4生成3等等。並產生出對應每個組合的頻率，讓我們可以作一個篩選。
 ```python
