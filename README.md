@@ -5,7 +5,8 @@ KKBOX於2023年10月在Kaggle上舉辦的比賽[KKCompany Music Challenge: Next-
     <img src="./images/proov.png" alt="Image 1" width="70%">
     <img src="./images/proov1.png" alt="Image 2" width="28%">
 </div>
-## EDA 
+
+## EDA
 首先我們觀察了KKBOX提供的資料，分析資料完整性，看是否有不乾淨的資料。得到以下觀察：
 1. Train_Source中song_id miss rate = 0%
 2. 每個session都有提供20首song_id
