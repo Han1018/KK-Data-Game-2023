@@ -22,19 +22,19 @@ Readme會分為兩部份: EDA & Method
 
 ---
 ### 分析特徵
-一、用戶播放音樂的來源，online-downloaded, online-streaming, offline-downloaded比例幾乎一致並沒有特別的趨勢。  
+一、用戶播放音樂的來源，online-downloaded, online-streaming, offline-downloaded比例幾乎一致並沒有特別的趨勢。  <br>
 二、用戶聽的語言，主要分佈是Mandarin(3)>English(62)=Japanese(17)>Korean(31)>Cantonese(52)>>Hokkien(24)，但沒有特別明顯的趨勢。但這張圖可以發現如果要喂給用戶隨機資料，可以朝中英日文著手
 <div style="display: flex; justify-content: space-between;">
     <img src="./images/play_status_circle.png" alt="Image 1" width="45%">
     <img src="./images/language.png" alt="Image 2" width="45%">
 </div>
-三、用戶的登入方式，顯然手機(7)還是最大宗，不是特別意外  
+三、用戶的登入方式，顯然手機(7)還是最大宗，不是特別意外  <br>
 四、用戶聆聽的曲風，Pop> Japanese > Western > Mandarin > Rock/Alternative > Electronic/Dance > Hip-Hop/Rap
 <div style="display: flex; justify-content: space-between;">
     <img src="./images/login_type.png" alt="Image 1" width="45%">
     <img src="./images/genre.png" alt="Image 2" width="45%">
 </div>
-五、畫出這些參數的heatmap觀察彼此的關聯性，關聯性太高的可以去掉（資料太多,ram不夠塞)。  
+五、畫出這些參數的heatmap觀察彼此的關聯性，關聯性太高的可以去掉（資料太多,ram不夠塞)。  <br>
 六、使用RandomForestClassifier觀察Kaggle提供的資料與第21首歌的關聯性，發現到影響力最大的變數還是song_id,尤其是後5首(第16~20)。再來是artist_id。
 <div style="display: flex; justify-content: space-between;">
     <img src="./images/heatmap.png" alt="Image 1" width="45%">
