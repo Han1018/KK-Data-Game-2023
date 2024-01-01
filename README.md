@@ -5,7 +5,11 @@ KKBOX於2023年10月在Kaggle上舉辦的比賽[KKCompany Music Challenge: Next-
     <img src="./images/proov.png" alt="Image 1" width="70%">
     <img src="./images/proov1.png" alt="Image 2" width="28%">
 </div>
-
+## EDA
+我們使用RandomForestClassifier觀察Kaggle提供的資料與結果的關聯性，發現到影響力最大的變數還是song_id,尤其是後5首。再來是artist_id。因此很適用ngram的方式來實做，由後n首歌來預測下一首歌。
+<p align="left">
+    <img src="./images/feature_importances.png" alt="Your Image">
+</p>
 
 ## Ngram
 使用Ngram的方式是我們最終達到最佳解的方式。KNN, Randomforest, Word2Vector, Item2Vector, Transformer方式收斂狀況都不盡理想，最好的結果是word2vec但僅為0.11。而Ngram效果卻出乎意料的好，原因可能是使用Ngram幫我免去了從巨大資料集(Meta_song)中找到700k分之一的可能性。且發現特定資料上配對的頻率比想像的高，因此我們主要的得分方向便在於此。用提供資料中的1-20首的後幾首歌預測多首歌。
