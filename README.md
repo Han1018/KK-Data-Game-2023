@@ -22,24 +22,31 @@ Readme會分為兩部份: EDA & Method
 
 ---
 ### 分析特徵
-用戶播放音樂的來源，online-downloaded, online-streaming, offline-downloaded比例幾乎一致並沒有特別的趨勢。
-用戶聽的語言，主要分佈是Mandarin(3)>English(62)=Japanese(17)>Korean(31)>Cantonese(52)>>Hokkien(24)，但沒有特別明顯的趨勢。但這張圖可以發現如果要喂給用戶隨機資料，可以朝中英日文著手
+一、用戶播放音樂的來源，online-downloaded, online-streaming, offline-downloaded比例幾乎一致並沒有特別的趨勢。 
+二、用戶聽的語言，主要分佈是Mandarin(3)>English(62)=Japanese(17)>Korean(31)>Cantonese(52)>>Hokkien(24)，但沒有特別明顯的趨勢。但這張圖可以發現如果要喂給用戶隨機資料，可以朝中英日文著手
 <div style="display: flex; justify-content: space-between;">
     <img src="./images/play_status_circle.png" alt="Image 1" width="45%">
     <img src="./images/language.png" alt="Image 2" width="45%">
 </div>
 
-用戶的登入方式，顯然手機還是最大宗，不是特別意外。
+三、用戶的登入方式，顯然手機(7)還是最大宗，不是特別意外。
+四、用戶聆聽的曲風，Pop> Japanese > Western > Mandarin > Rock/Alternative > Electronic/Dance > Hip-Hop/Rap
 <div style="display: flex; justify-content: space-between;">
-    <img src="./images/login_type.png">
+    <img src="./images/login_type.png" alt="Image 1" width="45%">
+    <img src="./images/genre.png" alt="Image 2" width="45%">
+</div>
+五、畫出這些參數的heatmap觀察彼此的關聯性，關聯性太高的可以去掉（資料太多,ram不夠塞)。
+六、使用RandomForestClassifier觀察Kaggle提供的資料與第21首歌的關聯性，發現到影響力最大的變數還是song_id,尤其是後5首(第16~20)。再來是artist_id。
+<div style="display: flex; justify-content: space-between;">
+    <img src="./images/heatmap.png" alt="Image 1" width="45%">
+    <img src="./images/feature_importances.png" width="45%">
 </div>
 
-我們使用RandomForestClassifier觀察Kaggle提供的資料與結果的關聯性，發現到影響力最大的變數還是song_id,尤其是後5首。再來是artist_id。因此很適用ngram的方式來實做，由後n首歌來預測下一首歌。
-<p align="left">
-    <img src="./images/feature_importances.png" height="50%">
-</p>
+以這些特徵來說比較理想能使用的是語言和曲風，他們能夠
+---
+因此很適用ngram的方式來實做，由後n首歌來預測下一首歌。
 
-## Ngram
+## Method-Ngram
 使用Ngram的方式是我們最終達到最佳解的方式。KNN, Randomforest, Word2Vector, Item2Vector, Transformer方式收斂狀況都不盡理想，最好的結果是word2vec但僅為0.11。而Ngram效果卻出乎意料的好，原因可能是使用Ngram幫我免去了從巨大資料集(Meta_song)中找到700k分之一的可能性。且發現特定資料上配對的頻率比想像的高，因此我們主要的得分方向便在於此。用提供資料中的1-20首的後幾首歌預測多首歌。
 
 在實際上操作上，我們是先建立一個Frequency Table，找出所有n生成m的組合，像是5生成5, 5生成4, 4生成3等等。並產生出對應每個組合的頻率，讓我們可以作一個篩選。
