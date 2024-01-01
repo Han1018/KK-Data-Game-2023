@@ -1,5 +1,5 @@
 # Kaggle競賽(Top3%, 5/176)-KKCompany Music Challenge: Next-5 Songcraft
-KKBOX於2023年10月在Kaggle上舉辦的比賽[KKCompany Music Challenge: Next-5 Songcraft](https://www.kaggle.com/competitions/datagame-2023)，預測用戶在同一個聆聽 session 內聆聽一定數量歌曲後，接下來可能會聆聽哪些歌曲。這將有助於打造更個性化的音樂推薦服務，提高用戶滿意度。我們特別強調參賽者需要謹慎避免過度集中於熱門音樂，以確保推薦結果更多元化，滿足不同用戶的需求。期待參賽者的創新方法，以改進音樂串流體驗，提高用戶滿意度。透過多次的探索性分析( exploratory data analysis)，搭配特徵工程，並使用N-Gram方式，來進行模型訓練，最終達到比賽中的Top3%, 5/176。
+KKBOX於2023年10月在Kaggle上舉辦的比賽[KKCompany Music Challenge: Next-5 Songcraft](https://www.kaggle.com/competitions/datagame-2023)，預測用戶在同一個聆聽 session 內聆聽一定數量歌曲後，接下來可能會聆聽哪些歌曲。這將有助於打造更個性化的音樂推薦服務，提高用戶滿意度。我們特別強調參賽者需要謹慎避免過度集中於熱門音樂，以確保推薦結果更多元化，滿足不同用戶的需求。期待參賽者的創新方法，以改進音樂串流體驗，提高用戶滿意度。透過多次的探索性分析( exploratory data analysis)，分析與結果關聯性最大的特徵，並使用N-Gram方式，來進行模型訓練，最終達到比賽中的Top3%, 5/176。
 
 <div style="display: flex; justify-content: space-between;">
     <img src="./images/proov.png" alt="Image 1" width="70%">
