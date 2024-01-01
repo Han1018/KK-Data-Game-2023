@@ -1,11 +1,41 @@
-# Kaggle競賽-KKCompany Music Challenge: Next-5 Songcraft
+# Kaggle競賽(Top3%, 5/176)-KKCompany Music Challenge: Next-5 Songcraft
 KKBOX於2023年10月在Kaggle上舉辦的比賽[KKCompany Music Challenge: Next-5 Songcraft](https://www.kaggle.com/competitions/datagame-2023)，預測用戶在同一個聆聽 session 內聆聽一定數量歌曲後，接下來可能會聆聽哪些歌曲。這將有助於打造更個性化的音樂推薦服務，提高用戶滿意度。我們特別強調參賽者需要謹慎避免過度集中於熱門音樂，以確保推薦結果更多元化，滿足不同用戶的需求。期待參賽者的創新方法，以改進音樂串流體驗，提高用戶滿意度。透過多次的探索性分析( exploratory data analysis)，搭配特徵工程，並使用N-Gram方式，來進行模型訓練，最終達到比賽中的Top3%, 5/176。
 
 <div style="display: flex; justify-content: space-between;">
     <img src="./images/proov.png" alt="Image 1" width="70%">
     <img src="./images/proov1.png" alt="Image 2" width="28%">
 </div>
+## EDA 
+首先我們觀察了KKBOX提供的資料，分析資料完整性，看是否有不乾淨的資料。得到以下觀察：
+1. Train_Source中song_id miss rate = 0%
+2. 每個session都有提供20首song_id
+3. Language欄位 miss rate:38.33% 
+4. Train_Source中song_id是unique的比例：5.68%, 表示大部分的歌曲id,重複比例很高。用戶聆聽習慣是聆聽熟悉的歌曲。
+5. play_duration參數中發現一些特徵，譬如說25%的時間是低於3s，平均值是2814s但中位數時間卻只有60s。可以將3s當作使用者不喜愛這首歌的Treshold, 也發現到一些極大值的播放時間是需要處理的，顯然平均值是2814s相當於47分鐘是不太可能的，有可能是Podcast的時間拉長了平均值。這也是個重要特徵，譬如說先用Threshold切出podcast和歌曲再各別讓模型學習，簡單的任務模型比較容易學習到精隨。
+<div style="display: flex; justify-content: space-between;">
+    <img src="./images/play_duration_plot.png" alt="Image 1" width="45%">
+    <img src="./images/play_duration.png" alt="Image 2" width="45%">
+</div>
 
+
+所以KKBOX提供的資料是比較完全的，並不需要自己填充song_id。song_id也是全部參數中最完整的。
+
+用戶播放音樂的來源，online-downloaded, online-streaming, offline-downloaded比例幾乎一致並沒有特別的趨勢。
+用戶聽的語言，主要分佈是Mandarin(3)>English(62)=Japanese(17)>Korean(31)>Cantonese(52)>>Hokkien(24)，但沒有特別明顯的趨勢。但這張圖可以發現如果要喂給用戶隨機資料，可以朝中英日文著手
+<div style="display: flex; justify-content: space-between;">
+    <img src="./images/play_status_circle.png" alt="Image 1" width="45%">
+    <img src="./images/language" alt="Image 2" width="45%">
+</div>
+
+用戶的登入方式，顯然手機還是最大宗，不是特別意外。
+<div style="display: flex; justify-content: space-between;">
+    <img src="./images/login_type.png">
+</div>
+
+我們使用RandomForestClassifier觀察Kaggle提供的資料與結果的關聯性，發現到影響力最大的變數還是song_id,尤其是後5首。再來是artist_id。因此很適用ngram的方式來實做，由後n首歌來預測下一首歌。
+<p align="left">
+    <img src="./images/feature_importances.png" height="50%">
+</p>
 
 ## Ngram
 使用Ngram的方式是我們最終達到最佳解的方式。KNN, Randomforest, Word2Vector, Item2Vector, Transformer方式收斂狀況都不盡理想，最好的結果是word2vec但僅為0.11。而Ngram效果卻出乎意料的好，原因可能是使用Ngram幫我免去了從巨大資料集(Meta_song)中找到700k分之一的可能性。且發現特定資料上配對的頻率比想像的高，因此我們主要的得分方向便在於此。用提供資料中的1-20首的後幾首歌預測多首歌。
