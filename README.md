@@ -8,7 +8,7 @@ KKBOX於2023年10月在Kaggle上舉辦的比賽[KKCompany Music Challenge: Next-
 ## EDA
 我們使用RandomForestClassifier觀察Kaggle提供的資料與結果的關聯性，發現到影響力最大的變數還是song_id,尤其是後5首。再來是artist_id。因此很適用ngram的方式來實做，由後n首歌來預測下一首歌。
 <p align="left">
-    <img src="./images/feature_importances.png" alt="Your Image">
+    <img src="./images/feature_importances.png" height="50%">
 </p>
 
 ## Ngram
