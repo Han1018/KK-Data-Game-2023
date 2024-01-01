@@ -1,5 +1,5 @@
 # Kaggle競賽(Top3%, 5/176)-KKCompany Music Challenge: Next-5 Songcraft
-KKBOX於2023年10月在Kaggle上舉辦的比賽[KKCompany Music Challenge: Next-5 Songcraft](https://www.kaggle.com/competitions/datagame-2023)，預測用戶在同一個聆聽 session 內聆聽一定數量歌曲後，接下來可能會聆聽哪些歌曲。這將有助於打造更個性化的音樂推薦服務，提高用戶滿意度。我們特別強調參賽者需要謹慎避免過度集中於熱門音樂，以確保推薦結果更多元化，滿足不同用戶的需求。期待參賽者的創新方法，以改進音樂串流體驗，提高用戶滿意度。透過多次的探索性分析( exploratory data analysis)，分析與結果關聯性最大的特徵，並使用N-Gram方式，來進行模型訓練，最終達到比賽中的Top3%, 5/176。
+KKBOX於2023年10月在Kaggle上舉辦的比賽[KKCompany Music Challenge: Next-5 Songcraft](https://www.kaggle.com/competitions/datagame-2023)，預測用戶在同一個聆聽 session 內聆聽一定數量歌曲後，接下來可能會聆聽哪些歌曲。這將有助於打造更個性化的音樂推薦服務，提高用戶滿意度。我們特別強調參賽者需要謹慎避免過度集中於熱門音樂，以確保推薦結果更多元化，滿足不同用戶的需求。期待參賽者的創新方法，以改進音樂串流體驗，提高用戶滿意度。透過多次的探索性分析(exploratory data analysis)，分析與結果關聯性最大的特徵，並使用N-Gram方式，來進行模型訓練，最終達到比賽中的Top3%, 5/176。
 
 <div style="display: flex; justify-content: space-between;">
     <img src="./images/proov.png" alt="Image 1" width="70%">
@@ -7,7 +7,7 @@ KKBOX於2023年10月在Kaggle上舉辦的比賽[KKCompany Music Challenge: Next-
 </div>
 Readme會分為兩部份: EDA & Method
 
-## EDA
+## EDA(exploratory data analysis)
 首先我們觀察了KKBOX提供的資料，分析資料完整性，看是否有不乾淨的資料。得到以下觀察：
 1. Train_Source中song_id miss rate = 0%
 2. 每個session都有提供20首song_id
@@ -22,20 +22,19 @@ Readme會分為兩部份: EDA & Method
 
 ---
 ### 分析特徵
-一、用戶播放音樂的來源，online-downloaded, online-streaming, offline-downloaded比例幾乎一致並沒有特別的趨勢。 
+一、用戶播放音樂的來源，online-downloaded, online-streaming, offline-downloaded比例幾乎一致並沒有特別的趨勢。  
 二、用戶聽的語言，主要分佈是Mandarin(3)>English(62)=Japanese(17)>Korean(31)>Cantonese(52)>>Hokkien(24)，但沒有特別明顯的趨勢。但這張圖可以發現如果要喂給用戶隨機資料，可以朝中英日文著手
 <div style="display: flex; justify-content: space-between;">
     <img src="./images/play_status_circle.png" alt="Image 1" width="45%">
     <img src="./images/language.png" alt="Image 2" width="45%">
 </div>
-
-三、用戶的登入方式，顯然手機(7)還是最大宗，不是特別意外。
+三、用戶的登入方式，顯然手機(7)還是最大宗，不是特別意外  
 四、用戶聆聽的曲風，Pop> Japanese > Western > Mandarin > Rock/Alternative > Electronic/Dance > Hip-Hop/Rap
 <div style="display: flex; justify-content: space-between;">
     <img src="./images/login_type.png" alt="Image 1" width="45%">
     <img src="./images/genre.png" alt="Image 2" width="45%">
 </div>
-五、畫出這些參數的heatmap觀察彼此的關聯性，關聯性太高的可以去掉（資料太多,ram不夠塞)。
+五、畫出這些參數的heatmap觀察彼此的關聯性，關聯性太高的可以去掉（資料太多,ram不夠塞)。  
 六、使用RandomForestClassifier觀察Kaggle提供的資料與第21首歌的關聯性，發現到影響力最大的變數還是song_id,尤其是後5首(第16~20)。再來是artist_id。
 <div style="display: flex; justify-content: space-between;">
     <img src="./images/heatmap.png" alt="Image 1" width="45%">
