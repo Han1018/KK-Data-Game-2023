@@ -5,6 +5,7 @@ KKBOX於2023年10月在Kaggle上舉辦的比賽[KKCompany Music Challenge: Next-
     <img src="./images/proov.png" alt="Image 1" width="70%">
     <img src="./images/proov1.png" alt="Image 2" width="28%">
 </div>
+Readme會分為兩部份: EDA & Method
 
 ## EDA
 首先我們觀察了KKBOX提供的資料，分析資料完整性，看是否有不乾淨的資料。得到以下觀察：
@@ -25,7 +26,7 @@ KKBOX於2023年10月在Kaggle上舉辦的比賽[KKCompany Music Challenge: Next-
 用戶聽的語言，主要分佈是Mandarin(3)>English(62)=Japanese(17)>Korean(31)>Cantonese(52)>>Hokkien(24)，但沒有特別明顯的趨勢。但這張圖可以發現如果要喂給用戶隨機資料，可以朝中英日文著手
 <div style="display: flex; justify-content: space-between;">
     <img src="./images/play_status_circle.png" alt="Image 1" width="45%">
-    <img src="./images/language" alt="Image 2" width="45%">
+    <img src="./images/language.png" alt="Image 2" width="45%">
 </div>
 
 用戶的登入方式，顯然手機還是最大宗，不是特別意外。
