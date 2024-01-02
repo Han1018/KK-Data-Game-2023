@@ -15,8 +15,8 @@ Readme會分為兩部份: EDA & Method
 4. Train_Source中song_id是unique的比例：5.68%, 表示大部分的歌曲id,重複比例很高。用戶聆聽習慣是聆聽熟悉的歌曲。
 5. play_duration參數中發現一些特徵，譬如說25%的時間是低於3s，平均值是2814s但中位數時間卻只有60s。所以說可能可以將3s當作使用者不喜愛這首歌的Treshold, 也發現到一些極大值的播放時間是需要處理的，顯然平均值是2814s相當於47分鐘是不太可能的，有可能是Podcast的時間拉長了平均值。這也是個重要特徵，譬如說先用Threshold切出podcast和歌曲再各別讓模型學習，簡單的任務模型比較容易學習到精隨。
 <div style="display: flex; justify-content: space-between;">
-    <img src="./images/play_duration_plot.png" alt="Image 1" width="45%">
-    <img src="./images/play_duration.png" alt="Image 2" width="45%">
+    <img src="./images/play_duration_plot.png" alt="Image 1" width="47.5%">
+    <img src="./images/play_duration.png" alt="Image 2" width="47.5%">
 </div>
 整體上來說，KKBOX提供的資料在song_id上是比較完全的，並不需要自己填充song_id。比較困難的是如何將play_duration, artist等其他特徵結合起來。
 
@@ -25,20 +25,20 @@ Readme會分為兩部份: EDA & Method
 一、用戶播放音樂的來源，online-downloaded, online-streaming, offline-downloaded比例幾乎一致並沒有特別的趨勢。  <br>
 二、用戶聽的語言，主要分佈是Mandarin(3)>English(62)=Japanese(17)>Korean(31)>Cantonese(52)>>Hokkien(24)，但沒有特別明顯的趨勢。但這張圖可以發現如果要喂給用戶隨機資料，可以朝中英日文著手
 <div style="display: flex; justify-content: space-between;">
-    <img src="./images/play_status_circle.png" alt="Image 1" width="45%">
-    <img src="./images/language.png" alt="Image 2" width="45%">
+    <img src="./images/play_status_circle.png" alt="Image 1" width="47.5%">
+    <img src="./images/language.png" alt="Image 2" width="47.5%">
 </div>
 三、用戶的登入方式，顯然手機(7)還是最大宗，不是特別意外  <br>
 四、用戶聆聽的曲風，Pop> Japanese > Western > Mandarin > Rock/Alternative > Electronic/Dance > Hip-Hop/Rap
 <div style="display: flex; justify-content: space-between;">
-    <img src="./images/login_type.png" alt="Image 1" width="45%">
-    <img src="./images/genre.png" alt="Image 2" width="45%">
+    <img src="./images/login_type.png" alt="Image 1" width="47.5%">
+    <img src="./images/genre.png" alt="Image 2" width="47.5%">
 </div>
 五、畫出這些參數的heatmap觀察彼此的關聯性，關聯性太高的可以去掉（資料太多,ram不夠塞)。在heatmap上語言和曲風有比較高的相似度，因為語言的missrate比較少且沒有多對一所以二者中捨去曲風當作特徵  <br>
 六、使用RandomForestClassifier觀察Kaggle提供的特徵資料與第21首歌的關聯性，發現到影響力最大的變數還是song_id,尤其是後5首(第16~20)。再來是artist_id。
 <div style="display: flex; justify-content: space-between;">
-    <img src="./images/heatmap.png" alt="Image 1" width="45%">
-    <img src="./images/feature_importances.png" width="45%">
+    <img src="./images/heatmap.png" alt="Image 1" width="47.5%">
+    <img src="./images/feature_importances.png" width="47.5%">
 </div>
 
 ---
